@@ -5,7 +5,12 @@ _V = TypeVar("_V")
 _T = TypeVar("_T")
 
 
-def associate_by(key_producer: Callable, items: Iterable[_V]) -> dict[_K, _V]:
+def apply_if_not_none(item: Optional[_T], consumer: Callable[[_T], None]):
+    if item is not None:
+        consumer(item)
+
+
+def associate_by(key_producer: Callable[[_V], _K], items: Iterable[_V]) -> dict[_K, _V]:
     out_dict = dict()
 
     for item in items:
@@ -14,14 +19,14 @@ def associate_by(key_producer: Callable, items: Iterable[_V]) -> dict[_K, _V]:
     return out_dict
 
 
-def flat_list(iterable: Iterable[_T]) -> list[_T]:
+def flat_list(iterable: Iterable[_T]) -> _T:
     for sub_list in iterable:
         for item in sub_list:
             yield item
     # return [item for sublist in iterable for item in sublist]
 
 
-def iter_batch(iterable: Iterator[_T], batch_size=1):
+def iter_batch(iterable: Iterator[_T], batch_size=1) -> list[_T]:
     batch_array = list()
 
     for val in iterable:

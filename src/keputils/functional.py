@@ -1,13 +1,9 @@
-from typing import Callable, Iterable, Iterator, Optional, TypeVar
+from typing import Callable, Iterable, Iterator, Optional, TypeVar, Type, Awaitable, Any
 
 _K = TypeVar("_K")
 _V = TypeVar("_V")
 _T = TypeVar("_T")
-
-
-def apply_if_not_none(item: Optional[_T], consumer: Callable[[_T], None]):
-    if item is not None:
-        consumer(item)
+_TT = TypeVar("_TT")
 
 
 def associate_by(key_producer: Callable[[_V], _K], items: Iterable[_V]) -> dict[_K, _V]:
@@ -53,7 +49,20 @@ def if_none(val: Optional[_T], default: _T) -> _T:
     return val
 
 
+def apply_if_not_none(val: Optional[_T], fun: Callable[[_T], _TT]) -> _TT:
+    if val is not None:
+        return fun(val)
+    return None
+
+
 def none_if_key_not_exists(dictionary: dict[_K, _V], key: _K) -> Optional[_V]:
     if key not in dictionary:
         return None
     return dictionary[key]
+
+
+async def run_catching(exception: Type[_T], runnable: Awaitable, on_exception: Callable[[_T], Any]) -> Any:
+    try:
+        return await runnable
+    except exception as e:
+        return on_exception(e)

@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Iterator, Optional, TypeVar, Type, Awaitable, Any
+from typing import Callable, Iterable, Iterator, Optional, TypeVar, Type, Any
 
 _K = TypeVar("_K")
 _V = TypeVar("_V")
@@ -61,8 +61,8 @@ def none_if_key_not_exists(dictionary: dict[_K, _V], key: _K) -> Optional[_V]:
     return dictionary[key]
 
 
-async def run_catching(exception: Type[_T], runnable: Awaitable, on_exception: Callable[[_T], Any]) -> Any:
+def run_catching(exception: Type[_T], runnable: Callable, on_exception: Callable[[_T], Any]) -> Any:
     try:
-        return await runnable
+        return runnable()
     except exception as e:
         return on_exception(e)

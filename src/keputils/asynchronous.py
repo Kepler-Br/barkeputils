@@ -1,7 +1,7 @@
 import math
 import random
 from asyncio import sleep, BoundedSemaphore
-from typing import Awaitable
+from typing import Awaitable, TypeVar, Type, Callable, Any
 
 from asyncio_throttle import Throttler
 
@@ -10,6 +10,16 @@ async def with_throttle_and_semaphore(throttler: Throttler, semaphore: BoundedSe
     async with semaphore:
         async with throttler:
             return await func
+
+
+_T = TypeVar("_T")
+
+
+async def async_run_catching(exception: Type[_T], runnable: Awaitable, on_exception: Callable[[_T], Any]) -> Any:
+    try:
+        return await runnable
+    except exception as e:
+        return on_exception(e)
 
 
 class ExponentialSleeping:

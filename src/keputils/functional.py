@@ -61,6 +61,12 @@ def none_if_key_not_exists(dictionary: dict[_K, _V], key: _K) -> Optional[_V]:
     return dictionary[key]
 
 
+def default_if_key_not_exists(dictionary: dict[_K, _V], key: _K, default: _V) -> Optional[_V]:
+    if key not in dictionary:
+        return default
+    return dictionary[key]
+
+
 def run_catching(exception: Type[_T], runnable: Callable, on_exception: Callable[[_T], Any]) -> Any:
     try:
         return runnable()

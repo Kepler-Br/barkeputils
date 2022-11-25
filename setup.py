@@ -1,20 +1,5 @@
 #!/usr/bin/env python
 
-# from setuptools import setup, find_packages
-#
-# setup(
-#     name='KUtils',
-#     version='1.0.0',
-#     url='https://git.dw/kepler-br/kutils.git',
-#     author='Barrett Kepler',
-#     # author_email='author@gmail.com',
-#     description='Handy little utils for using with python',
-#     packages=find_packages(),
-#     install_requires=['asyncio_throttle >= 1.0.2', 'asyncio >= 3.4.3'],
-#     setup_requires=['wheel', 'pip'],
-# )
-
-
 import pathlib
 
 from setuptools import setup, find_packages
@@ -39,7 +24,7 @@ setup(
     # There are some restrictions on what makes a valid project name
     # specification here:
     # https://packaging.python.org/specifications/core-metadata/#name
-    name="keputils",  # Required
+    name="barkeputils",  # Required
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
     #

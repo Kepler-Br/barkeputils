@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Iterator, Optional, TypeVar, Type, Any
+from typing import Callable, Iterable, Optional, TypeVar, Type, Any
 
 _K = TypeVar("_K")
 _V = TypeVar("_V")
@@ -22,7 +22,7 @@ def flat_list(iterable: Iterable[_T]) -> _T:
     # return [item for sublist in iterable for item in sublist]
 
 
-def iter_batch(iterable: Iterator[_T], batch_size=1) -> list[_T]:
+def iter_batch(iterable: Iterable[_T], batch_size=1) -> list[list[_T]]:
     batch_array = list()
 
     for val in iterable:

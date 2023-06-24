@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Optional, TypeVar, Type, Any
+from typing import Callable, Iterable, Optional, TypeVar, Type, Any, List
 
 _K = TypeVar("_K")
 _V = TypeVar("_V")
@@ -7,10 +7,23 @@ _TT = TypeVar("_TT")
 
 
 def associate_by(key_producer: Callable[[_V], _K], items: Iterable[_V]) -> dict[_K, _V]:
-    out_dict = dict()
+    out_dict: dict[_K, List[_V]] = dict()
 
     for item in items:
         out_dict[key_producer(item)] = item
+
+    return out_dict
+
+
+def group_by(key_producer: Callable[[_V], _K], items: Iterable[_V]) -> dict[_K, List[_V]]:
+    out_dict: dict[_K, List[_V]] = dict()
+
+    for item in items:
+        key = key_producer(item)
+        if key in out_dict:
+            out_dict[key].append(item)
+        else:
+            out_dict[key] = [item]
 
     return out_dict
 

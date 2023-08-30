@@ -1,5 +1,5 @@
 import os
-from typing import Callable, Iterable
+from typing import Callable
 
 
 def walk_files(

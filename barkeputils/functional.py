@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Optional, TypeVar, Type, Any, List
+from typing import Callable, Iterable, Optional, TypeVar, Type, Any, List, Generator
 
 _K = TypeVar("_K")
 _V = TypeVar("_V")
@@ -28,11 +28,10 @@ def group_by(key_producer: Callable[[_V], _K], items: Iterable[_V]) -> dict[_K, 
     return out_dict
 
 
-def flat_list(iterable: Iterable[_T]) -> _T:
+def flat_list(iterable: Iterable[_T]) -> Generator[_T, None, None]:
     for sub_list in iterable:
         for item in sub_list:
             yield item
-    # return [item for sublist in iterable for item in sublist]
 
 
 def iter_batch(iterable: Iterable[_T], batch_size=1) -> list[list[_T]]:
@@ -56,7 +55,14 @@ def none_if_empty_string(string: str) -> Optional[str]:
     return string
 
 
-def if_none(val: Optional[_T], default: _T) -> _T:
+def do_if_none(val: Optional[_T], fun: Callable[[], Optional[Any]]) -> Optional[Any]:
+    if val is None:
+        return fun()
+
+    return val
+
+
+def default_if_none(val: Optional[_T], default: _T) -> _T:
     if val is None:
         return default
     return val
